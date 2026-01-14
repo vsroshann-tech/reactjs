@@ -41,7 +41,7 @@ pipeline {
                         """
                     }
 
-                    if (env.BRANCH_NAME == 'master') {
+                    if (env.BRANCH_NAME == 'main') {
                         sh """
                           docker build -t $PROD_IMAGE:$tag .
                           docker tag $PROD_IMAGE:$tag $PROD_IMAGE:latest
