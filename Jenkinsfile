@@ -27,9 +27,12 @@ pipeline {
         stage('Build & Push Image') {
             steps {
                 script {
-                    def tag = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                    def tag = sh(
+                        script: "git rev-parse --short HEAD",
+                        returnStdout: true
+                    ).trim()
 
-                    if (env.GIT_BRANCH == 'dev') {
+                    if (env.BRANCH_NAME == 'dev') {
                         sh """
                           docker build -t $DEV_IMAGE:$tag .
                           docker tag $DEV_IMAGE:$tag $DEV_IMAGE:latest
@@ -38,7 +41,7 @@ pipeline {
                         """
                     }
 
-                    if (env.GIT_BRANCH == 'master') {
+                    if (env.BRANCH_NAME == 'master') {
                         sh """
                           docker build -t $PROD_IMAGE:$tag .
                           docker tag $PROD_IMAGE:$tag $PROD_IMAGE:latest
@@ -51,7 +54,7 @@ pipeline {
         }
 
         stage('Deploy') {
-            {
+            when {
                 branch 'dev'
             }
             steps {
@@ -59,3 +62,4 @@ pipeline {
             }
         }
     }
+}
