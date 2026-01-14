@@ -27,32 +27,14 @@ pipeline {
         stage('Build & Push Image') {
             steps {
                 script {
-                    if (env.GIT_BREANCH == 'dev') {
-
-                        sh """
-                          docker build -t ${DEV_IMAGE}:${TAG} .
-                          docker tag ${DEV_IMAGE}:${TAG} ${DEV_IMAGE}:latest
-                          docker push ${DEV_IMAGE}:${TAG}
-                          docker push ${DEV_IMAGE}:latest
-                        """
-
-                    } else if (env.GIT_BRANCH == 'main') {
-
-                        sh """
-                          docker build -t ${PROD_IMAGE}:${TAG} .
-                          docker tag ${PROD_IMAGE}:${TAG} ${PROD_IMAGE}:latest
-                          docker push ${PROD_IMAGE}:${TAG}
-                          docker push ${PROD_IMAGE}:latest
-                        """
-                    }
+                    sh 'chmod +x build.sh'
+                    sh './build.sh'
+                    
                 }
             }
         }
 
         stage('Deploy') {
-            when {
-                branch 'dev'
-            }
             steps {
                 sh './deploy.sh'
             }
