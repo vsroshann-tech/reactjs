@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+        
         DEV_IMAGE  = 'roshanvs1/dev'
         PROD_IMAGE = 'roshanvs1/prod'
     }
