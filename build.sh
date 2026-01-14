@@ -1,11 +1,8 @@
 #!/bin/bash
 set -e
 
-IMAGE_NAME=yourdockerhubusername/dev
-TAG=$(date +%Y%m%d%H%M)
-
-echo "Logging into DockerHub..."
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+IMAGE_NAME=roshanvs1/dev
+TAG=latest
 
 echo "Building Docker image..."
 docker build -t $IMAGE_NAME:$TAG .
